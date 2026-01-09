@@ -32,7 +32,7 @@ jobs:
       # We need python to run our test script.
       - name: Install Python
         run: |
-          sudo apt-get update && sudo apt-get install -y python3
+          apt-get update && apt-get install -y python3
 
       # 4. Run the Runner
       - name: Run Tests
