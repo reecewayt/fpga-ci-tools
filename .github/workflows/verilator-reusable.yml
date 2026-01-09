@@ -30,11 +30,12 @@ jobs:
 
       # 3. Dependencies
       # We need python to run our test script.
-      - name: Install Python
-        run: |
-          apt-get update && apt-get install -y python3
+      # - name: Install Python
+      #  run: |
+      #    apt-get update && apt-get install -y python3
 
       # 4. Run the Runner
       - name: Run Tests
+        working-directory: project
         run: |
-          python3 tools/scripts/test_runner.py project/${{ inputs.test_dir }}
+          python3 ../tools/scripts/test_runner.py ${{ inputs.test_dir }}
