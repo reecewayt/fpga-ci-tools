@@ -1,0 +1,40 @@
+name: "Verilator Test Runner"
+
+on:
+  workflow_call:
+    inputs:
+      test_dir:
+        required: false
+        type: string
+        default: "tests"
+        description: "Directory containing test subfolders"
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    container: verilator/verilator:latest  
+
+    steps:
+      # 1. Checkout YOUR PROJECT (the one calling this workflow)
+      - name: Checkout Project
+        uses: actions/checkout@v4
+        with:
+          path: project
+
+      # 2. Checkout the TOOLS (this repo, to get the python script)
+      - name: Checkout Tools
+        uses: actions/checkout@v4
+        with:
+          repository: reecewayt/fpga-ci-tools
+          path: tools
+
+      # 3. Dependencies
+      # We need python to run our test script.
+      - name: Install Python
+        run: |
+          apk update && apk add python3
+
+      # 4. Run the Runner
+      - name: Run Tests
+        run: |
+          python3 tools/scripts/test_runner.py project/${{ inputs.test_dir }}
